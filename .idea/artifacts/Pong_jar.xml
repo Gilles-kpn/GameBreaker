@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="Pong:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Pong_jar</output-path>
+    <root id="archive" name="Pong.jar">
+      <element id="module-output" name="Breaker" />
+    </root>
+  </artifact>
+</component>
