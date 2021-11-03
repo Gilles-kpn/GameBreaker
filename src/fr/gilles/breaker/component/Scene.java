@@ -1,9 +1,11 @@
 package fr.gilles.breaker.component;
 
+import fr.gilles.breaker.Threads.CollisionThread;
 import fr.gilles.breaker.Threads.GameThread;
 import fr.gilles.breaker.game.Settings;
 import fr.gilles.breaker.panels.GamePanel;
 import fr.gilles.breaker.panels.Menu;
+import fr.gilles.breaker.panels.SettingsPanel;
 
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
@@ -19,7 +21,11 @@ import java.net.URISyntaxException;
 public class Scene extends JFrame implements KeyListener {
 
     private GamePanel gamePanel ;
+    private Menu menuPanel;
     private Thread gameThread ;
+    private Thread collisionThread;
+    private SettingsPanel settingsPanel;
+
 
 
     public Scene(){
@@ -48,9 +54,13 @@ public class Scene extends JFrame implements KeyListener {
         });
     }
 
-    public void init() throws IOException, FontFormatException {
-        setContentPane(new Menu());
-        setVisible(true);
+    public void menu() throws IOException, FontFormatException {
+        menuPanel = new Menu();
+        menuPanel.setPreferredSize(new Dimension(800,600));
+        menuPanel.setSize(new Dimension(800, 600));
+        menuPanel.setMinimumSize(new Dimension(800, 600));
+        setContentPane(menuPanel);
+        repaint();
     }
 
 
@@ -64,18 +74,34 @@ public class Scene extends JFrame implements KeyListener {
         this.setContentPane(gamePanel);
         System.out.println(gamePanel.getSize());
         gameThread = new Thread(new GameThread());
+        collisionThread = new Thread(new CollisionThread());
         gameThread.start();
+        collisionThread.start();
 
     }
 
     public void repaintGamePanel() throws UnsupportedAudioFileException, LineUnavailableException, URISyntaxException, IOException {
         gamePanel.repaint();
         gamePanel.moveBall();
-        gamePanel.checkCollision();
+
     }
 
-    public  void collisionListener(){
 
+    public void collision() throws UnsupportedAudioFileException, LineUnavailableException, URISyntaxException, IOException {
+        gamePanel.playerCollisionMoveBall();
+        gamePanel.checkTargetBlockCollision();
+    }
+
+
+    public void goToSettings() throws IOException, FontFormatException {
+        settingsPanel = new SettingsPanel();
+
+        JScrollPane settings = new JScrollPane(settingsPanel);
+        settings.setPreferredSize(new Dimension(800,600));
+        settings.setSize(new Dimension(800, 600));
+        settings.setMinimumSize(new Dimension(800, 600));
+        setContentPane(settings);
+        repaint();
     }
 
 
@@ -95,4 +121,7 @@ public class Scene extends JFrame implements KeyListener {
     @Override
     public void keyReleased(KeyEvent keyEvent) {
     }
+
+
+
 }

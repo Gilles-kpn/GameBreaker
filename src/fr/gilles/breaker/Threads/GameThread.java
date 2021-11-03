@@ -17,7 +17,7 @@ public class GameThread implements  Runnable{
 
             try {
                 Game.scene.repaintGamePanel();
-                Thread.sleep(Settings.getSettings().refreshFrequency);
+                Thread.sleep(Settings.getSettings().difficult);
             }catch (InterruptedException | UnsupportedAudioFileException | LineUnavailableException | URISyntaxException | IOException e){
                 e.printStackTrace();
             }

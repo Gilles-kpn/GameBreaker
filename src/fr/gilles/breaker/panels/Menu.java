@@ -84,7 +84,11 @@ public class Menu extends JPanel {
         JButton settings = new JButton("Settings");
         UI.customizeButton(settings);
         settings.addActionListener((actionEvent)->{
-
+            try {
+                Navigator.goToSettings();
+            } catch (IOException | FontFormatException e) {
+                e.printStackTrace();
+            }
         });
         box.add(settings);
     }

@@ -12,15 +12,12 @@ import java.net.URISyntaxException;
 
 public class CollisionThread implements   Runnable, ActionListener {
 
-
-
     @Override
     public void run() {
         while(true){
-
             try {
-                Game.scene.repaintGamePanel();
-                Thread.sleep(Settings.getSettings().refreshFrequency);
+                Game.scene.collision();
+                Thread.sleep(1);
             }catch (InterruptedException | UnsupportedAudioFileException | LineUnavailableException | URISyntaxException | IOException e){
                 e.printStackTrace();
             }

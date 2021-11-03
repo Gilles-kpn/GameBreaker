@@ -21,8 +21,8 @@ public class GamePanel extends JPanel {
 
 
     public GamePanel(){
-        ballBlock = new BallBlock(new Point2D.Double(300,530),new Dimension(10,10),Color.RED);
-        playerBlock = new PlayerBlock(new Point2D.Double(300,550));
+        ballBlock = new BallBlock(new Point2D.Double(300,530),new Dimension(10,10),Settings.getSettings().ballColor);
+        playerBlock = new PlayerBlock(new Point2D.Double(300,550),Settings.getSettings().playerPadColor);
         obstaclesBlocks = new ObstaclesBlocks(new Point2D.Double(10,10),new Dimension(960,200), Color.green);
     }
 
@@ -69,10 +69,9 @@ public class GamePanel extends JPanel {
 
     public void moveBall() throws UnsupportedAudioFileException, LineUnavailableException, URISyntaxException, IOException {
        normalMoveBall();
-       playerCollisionMoveBall();
     }
 
-    private void playerCollisionMoveBall() throws UnsupportedAudioFileException, LineUnavailableException, URISyntaxException, IOException {
+    public void playerCollisionMoveBall() throws UnsupportedAudioFileException, LineUnavailableException, URISyntaxException, IOException {
         if (ballBlock.getPosition().getY()+ballBlock.getDimension().height == playerBlock.getPosition().getY() && ballBlock.isMoveY()){
             if (ballBlock.getPosition().getX()>= playerBlock.getPosition().getX() && ballBlock.getPosition().getX() <= playerBlock.getPosition().getX()+playerBlock.getDimension().width){
                 ballBlock.setMoveY(false);
@@ -82,7 +81,7 @@ public class GamePanel extends JPanel {
         }
     }
 
-    private  void normalMoveBall() throws UnsupportedAudioFileException, LineUnavailableException, URISyntaxException, IOException {
+    public  void normalMoveBall() throws UnsupportedAudioFileException, LineUnavailableException, URISyntaxException, IOException {
         if (ballBlock.isMoveX())
             ballBlock.setPosition(new Point2D.Double(ballBlock.getPosition().getX()+1, ballBlock.getPosition().getY()));
         else
@@ -121,7 +120,7 @@ public class GamePanel extends JPanel {
 
     }
 
-    public   void checkCollision(){
+    public   void checkTargetBlockCollision(){
         for (int i=0; i< obstaclesBlocks.getTargetBlocks().length ; i++)
             for (int y=0; y < obstaclesBlocks.getTargetBlocks()[0].length; y++ ){
                 if(obstaclesBlocks.getTargetBlocks()[i][y].checkCollision(ballBlock))
